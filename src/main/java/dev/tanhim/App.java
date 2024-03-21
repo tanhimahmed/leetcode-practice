@@ -49,25 +49,42 @@ public class App
     }
 
     // leetcode 80
+    // Input: nums = [1,1,1,2,2,3]
+    // Output: 5, nums = [1,1,2,2,3,_]
     public static int removeDuplicatesTwo(int[] nums) {
+        int current = nums[0];
+        int count = 1;
         int k = nums.length;
-        int temp = nums[0];
-        int tempCnt = 1;
 
-        for(int i=1; i < nums.length; i++) {
-            if (nums[i] == temp && ++tempCnt > 2) {
-                    tempCnt = 2;
+        for (int i=1; i<nums.length; i++) {
+            if (nums[i] == current) {
+                count++;
+                if (count > 2) {
                     nums[i] = 10001;
                     k--;
+                }
             } else {
-                temp = nums[i];
-                tempCnt = 1;
-            } 
+                count = 1;
+                current = nums[i];
+            }
         }
+
         Arrays.sort(nums);
         return k;
     }
 
+    // leetcode 80
+    // Input: nums = [1,1,1,2,2,3]
+    // Output: 5, nums = [1,1,2,2,3,_]
+    public static int removeDuplicatesTwoBetter(int[] nums) {
+        int i = 0;
+
+        for (final int num : nums)
+            if (i < 2 || num > nums[i - 2])
+                nums[i++] = num;
+
+        return i;
+    }
     // leetcode 88
     // Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
     // Output: [1,2,2,3,5,6]
