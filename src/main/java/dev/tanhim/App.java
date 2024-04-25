@@ -1,6 +1,11 @@
 package dev.tanhim;
 
-import java.util.*;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App 
 {
@@ -30,6 +35,99 @@ public class App
 
 
     // -------------------  practice problems start here  ------------------- //
+
+    // -------------------  hackerrank problems problems  ------------------- //
+    /* plus minus:  Given an array of integers, calculate the ratios of its elements that are positive, negative, and zero. 
+     *              Print the decimal value of each fraction on a new line with places after the decimal.
+     * 
+     * Input:       int arr[n]: an array of integers of size n 
+     * Output:      Print the following lines, each to 6 decimals (ie. use float):
+     *                 1. proportion of positive values
+     *                 2. proportion of negative values
+     *                 3. proportion of zeros
+     * 
+     */
+    public static void plusMinus(List<Integer> nums) {
+        int posCount = 0;
+        int negCount = 0;
+        int zeroCount = 0;
+        
+        if (nums == null || nums.isEmpty()) {
+            System.out.println("The array is null/empty.");
+        } else {
+            for (Integer n : nums) {
+                if (n == 0 || n == null) {
+                    zeroCount++;
+                } else if (n > 0) {
+                    posCount++;
+                } else {
+                    negCount++;
+                }
+            }
+        }
+
+        float pos = (float) posCount / nums.size();
+        float neg = (float) negCount / nums.size();
+        float zero = (float) zeroCount / nums.size();
+
+        DecimalFormat format = new DecimalFormat("0.000000");
+        System.out.println(format.format(pos));
+        System.out.println(format.format(neg));
+        System.out.println(format.format(zero));
+    }
+
+
+    /* mini-max sum:    Given five positive integers, find the minimum and maximum values that can be calculated by summing exactly 
+     *                  four of the five integers. Then print the respective minimum and maximum values as a single line of two 
+     *                  space-separated long integers. 
+     * 
+     * Input:           List<Integer> A single line of five space-separated integers.
+     * Output:          Print two space-separated long integers denoting the respective minimum and maximum values that can be calculated 
+     *                  by summing exactly four of the five integers. (The output can be greater than a 32 bit integer.)
+     * 
+     */
+    public static void miniMaxSum(List<Integer> arr) {
+        long min;
+        long max;
+        long center = 0l;
+
+        Collections.sort(arr);
+        for(int i=1; i<4; i++) {
+            center += arr.get(i);
+        }
+        min = center + arr.get(0);
+        max = center + arr.get(4);
+        System.out.println(min + " " + max);
+    }
+
+
+    /* time conversion: Given a time in 12-hour AM/PM format, convert it to military (24-hour) time. 
+     * 
+     * Input:           String s = "07:05:45PM"
+     * Output:          String s = "19:05:45"
+     * 
+     */
+    public static String timeConversion(String s) {
+        if (s == null || s.isEmpty())
+            return null;
+
+        char meridian = s.charAt(s.length()-2);
+        String trimmed = s.substring(0, s.length()-2);
+        String hour = s.substring(0, 2);
+        Integer hourAsInt = Integer.parseInt(hour);
+
+        if (meridian == 'P' && hourAsInt < 12) {
+            hourAsInt += 12;
+            hour = hourAsInt.toString();
+        } else if (meridian == 'A' && hourAsInt == 12) {
+            hour = "00";
+        }
+        trimmed = hour.concat(trimmed.substring(2, trimmed.length()));
+        return trimmed;
+    }
+
+    
+    // -------------------  leetcode problems  ------------------- //
     /* leetcode 1: two sum
      *
      * Input: nums = [2,7,11,15], target = 9
@@ -54,6 +152,7 @@ public class App
      * Output: 3
      * Explanation: The answer is "abc", with the length of 3.
      */
+    // TODO:  complete impl
     public static int lengthOfLongestSubstring(String s) {
         int maxLength = 0;
         if (s == null || s.isEmpty())
@@ -69,7 +168,10 @@ public class App
                     maxLength = substring.size();
                 }
             } else {
+                // reset substring count from index of duplicate 
+                // if ()
                 substring.clear();
+
 
             }
         }        
@@ -419,6 +521,7 @@ public class App
     // -------------------  run/debug  ------------------- //
     public static void main( String[] args )
     {
-
+        String formatted = timeConversion("12:45:54PM");
+        System.out.println(formatted);
     }
 }
